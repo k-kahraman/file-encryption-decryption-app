@@ -1,7 +1,7 @@
 # Replit-specific files
 .replit
 .env
-.nix # Normally not specific to replit
+replit.nix
 .cache
 .breakpoints
 .upm
