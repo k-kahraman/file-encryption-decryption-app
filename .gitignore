@@ -1,0 +1,17 @@
+# Replit-specific files
+.replit
+.env
+.nix # Normally not specific to replit
+
+# Python-specific files
+__pycache__/
+*.py[cod]
+*.pyc
+
+# IDE-specific files
+.idea/
+.vscode/
+
+# Miscellaneous
+.DS_Store
+*.log
