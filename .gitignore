@@ -2,6 +2,10 @@
 .replit
 .env
 .nix # Normally not specific to replit
+.cache
+.breakpoints
+.upm
+.pythonlibs
 
 # Python-specific files
 __pycache__/
