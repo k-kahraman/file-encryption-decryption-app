@@ -36,12 +36,21 @@ st.title('File Encryption/Decryption App')
 
 # Input for prime numbers
 st.header("RSA Key Generation")
-p = st.number_input("Enter a prime number (p)", min_value=2, step=1)
-q = st.number_input("Enter a different prime number (q)", min_value=2, step=1)
+p = int(st.text_input("Enter a prime number (p)", value="3"))
+q = int(st.text_input("Enter a different prime number (q)", value="2"))
+
+# Checkbox to skip prime check
+skip_prime_check = st.checkbox(
+    "Skip prime number check (Not recommended unless you are sure)")
+
+if skip_prime_check:
+    st.warning(
+        "Warning: Skipping the prime number check can lead to incorrect key generation and insecure encryption. Use this option only if you are certain about the primality of the numbers."
+    )
 
 # Generate RSA Keys based on user input
 if st.button('Generate RSA Keys'):
-    if rsa.is_prime(p) and rsa.is_prime(q) and p != q:
+    if skip_prime_check or (rsa.is_prime(p) and rsa.is_prime(q) and p != q):
         st.session_state['public_key'], st.session_state[
             'private_key'] = rsa.generate_key_pair(p, q)
         st.success("RSA Keys generated successfully!")
@@ -78,7 +87,9 @@ if st.session_state['public_key'] and st.session_state['private_key']:
     uploaded_file_decrypt = st.file_uploader("Choose a file to decrypt",
                                              key="file_uploader_decrypt",
                                              type=["txt"])
-    key = st.number_input("Enter the private key please.", step=1)
+    key = int(
+        st.text_input("Enter the private key please. Current Key: ",
+                      value=f"{st.session_state['private_key'][0]}"))
     if st.button('Decrypt File', key="decrypt_file_button"):
         if uploaded_file_decrypt and key:
 

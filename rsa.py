@@ -10,13 +10,32 @@ Purpose:
 Project: Bil443 Cryptography and Security
 """
 import random
+import streamlit as st
+import time
+
+
+def timeit(func):
+
+    def wrapper(*args, **kwargs):
+        st.write(f"Executing function: `{func.__name__}`...")
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        st.write(
+            f"Function `{func.__name__}` took {end_time - start_time:.4f} seconds to execute."
+        )
+        return result
+
+    return wrapper
 
 
 def greatest_common_divisor(num1, num2):
     while num2 != 0:
         num1, num2 = num2, num1 % num2
     return num1
-        
+
+
+@timeit
 def multiplicative_inverse(exponent, totient):
     multiplicative_inv = 0
     prev_coefficient = 0
@@ -42,7 +61,7 @@ def multiplicative_inverse(exponent, totient):
         return multiplicative_inv + totient
 
 
-
+@timeit
 def is_prime(number):
     if number == 2:
         return True
@@ -54,6 +73,7 @@ def is_prime(number):
     return True
 
 
+@timeit
 def generate_key_pair(prime1, prime2):
     if not (is_prime(prime1) and is_prime(prime2)):
         raise ValueError('Both numbers must be prime.')
@@ -73,6 +93,7 @@ def generate_key_pair(prime1, prime2):
     return [[exponent, n_value], [private_key, n_value]]
 
 
+@timeit
 def encrypt(pk, plaintext):
     key, n = pk
     # Convert each letter in the plaintext to numbers based on the character using a^b mod m
@@ -81,6 +102,7 @@ def encrypt(pk, plaintext):
     return cipher
 
 
+@timeit
 def decrypt(pk, ciphertext):
     # Unpack the key into its components
     key, n = pk
