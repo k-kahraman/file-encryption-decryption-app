@@ -106,8 +106,14 @@ def encrypt(pk, plaintext):
 def decrypt(pk, ciphertext):
     # Unpack the key into its components
     key, n = pk
-    # Generate the plaintext based on the ciphertext and key using a^b mod m
-    aux = [str(pow(char, key, n)) for char in ciphertext]
-    # Return the array of bytes as a string
-    plain = [chr(int(char2)) for char2 in aux]
-    return ''.join(plain)
+    try:
+        # Generate the plaintext based on the ciphertext and key using a^b mod m
+        aux = [str(pow(char, key, n)) for char in ciphertext]
+        # Convert each number back to a character
+        plain = [chr(int(char_num)) for char_num in aux]
+        return ''.join(plain)
+    except OverflowError:
+        # Handle OverflowError and display a message to the user
+        st.error("Decryption failed: Incorrect private key.")
+        return "Incorrect Private Key, no information for you!"
+
